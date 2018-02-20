@@ -17,7 +17,9 @@ router.use( function(req, res, next) {
 } );
 
 router.get('/seats', function(req, res){
-
+    responseData.data = {
+        
+    }
 })
 
 router.post('/reserve', function(req, res){

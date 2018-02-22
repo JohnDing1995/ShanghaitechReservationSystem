@@ -6,6 +6,7 @@ var crypto = require('crypto');
 var router = express.Router();
 var responseData;
 
+var reservationModel =  require('./reservation');
 
 router.use( function(req, res, next) {
 
@@ -29,13 +30,18 @@ router.post('/reserve', function(req, res){
         responseData.succeed = false
         res.json(responseData)
     } else {
-        const name = req.body.name;
-        const time = req.body.time;
-        const id = req.body.id;
-        const seats = req.body.seats
-        const data_crypto = toString(id) + toString(time)
-        const code = crypto.createHash('md5').update(data_crypto).digest("hex");//generate identification code,by student id and booking time
-  
+        var reserve = new reservationModel({
+            username: '',
+            studentId: req.body.id,
+            fullName: req.body.fullName,
+            reservationTime: req.body.time,
+            firstSeat: req.body.first,
+            secondSeat: req.body.second,
+            thirdSeat: req.body.third,
+            code: crypto.createHash('md5').update(toString(id) + toString(time)).digest("hex")//generate identification code,by student id and booking time
+        })
+        reserve.save()
+
         //save above to database(NoSQL is preferred)
         responseData.code = 200
         responseData.message = "Reservation Succeed!"

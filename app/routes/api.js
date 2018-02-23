@@ -34,7 +34,7 @@ router.post('/reserve', function(req, res){
     //check seats' number
     if(req.body.seats.length > 3){
         responseData.message = 'Maximum 3 seats allowed'
-        responseData.succeed = false
+        responseData.succeed = false;
         res.json(responseData)
     } else {
         var reserve = new reservationModel({
@@ -42,9 +42,7 @@ router.post('/reserve', function(req, res){
             studentId: req.body.id,
             fullName: req.body.fullName,
             time: req.body.time,
-            firstSeat: req.body.first,
-            secondSeat: req.body.second,
-            thirdSeat: req.body.third,
+            seats: req.body.seats,
             code: crypto.createHash('md5').update(toString(id) + toString(time)).digest("hex")//generate identification code,by student id and booking time
         })
         reserve.save()
@@ -53,10 +51,6 @@ router.post('/reserve', function(req, res){
         responseData.code = 200
         responseData.message = "Reservation Succeed!"
         responseData.data = {
-            name:name,
-            time:time,
-            id:id,
-            seats:seats,
             code:code
         }
         res.json(responseData)

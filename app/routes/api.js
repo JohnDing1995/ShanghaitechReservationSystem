@@ -14,15 +14,21 @@ router.use( function(req, res, next) {
     responseData = {
         code: 0,
         message: ''
-    }
+    };
     next();
 } );
 
-router.get('/seats', function(req, res){
+router.get('/findseats', function(req, res){
+    var querySeats =  seatModel.find({taken: 0});
+    querySeats.select('seatNumber');
+    querySeats.exec(function (err, seatNumbers) {
+        if (err) return handleError(err);
+    });
+
     responseData.data = {
-        
+        seats: seatNumbers//an ordered list of all available seats' number
     }
-})
+});
 
 router.post('/reserve', function(req, res){
     //check seats' number

@@ -7,6 +7,7 @@ var router = express.Router();
 var responseData;
 
 var reservationModel = require('../models/reservation');
+var seatModel = require('../models/seats');
 
 router.use( function(req, res, next) {
 

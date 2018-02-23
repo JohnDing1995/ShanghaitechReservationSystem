@@ -35,7 +35,7 @@ router.post('/reserve', function(req, res){
     if(req.body.seats.length > 3){
         responseData.message = 'Maximum 3 seats allowed'
         responseData.succeed = false;
-        res.json(responseData)
+        res.status(401);
     } else {
         var reserve = new reservationModel({
             username: '',
@@ -48,12 +48,10 @@ router.post('/reserve', function(req, res){
         reserve.save()
 
         //save above to database(NoSQL is preferred)
-        responseData.code = 200
-        responseData.message = "Reservation Succeed!"
-        responseData.data = {
+        responseData = {
             code:code
-        }
-        res.json(responseData)
+        };
+        res.status(200).json(responseData)
         //return outcome through response
     
 

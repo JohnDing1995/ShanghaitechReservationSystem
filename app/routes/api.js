@@ -6,7 +6,7 @@ var crypto = require('crypto');
 var router = express.Router();
 var responseData;
 
-var reservationModel =  require('./reservation');
+var reservationModel = require('../models/reservation');
 
 router.use( function(req, res, next) {
 
@@ -34,7 +34,7 @@ router.post('/reserve', function(req, res){
             username: '',
             studentId: req.body.id,
             fullName: req.body.fullName,
-            reservationTime: req.body.time,
+            time: req.body.time,
             firstSeat: req.body.first,
             secondSeat: req.body.second,
             thirdSeat: req.body.third,

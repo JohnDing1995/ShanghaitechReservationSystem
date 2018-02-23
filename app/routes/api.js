@@ -1,5 +1,3 @@
-import { createHash } from 'crypto';
-
 var express = require('express');
 var crypto = require('crypto');
 
@@ -9,14 +7,13 @@ var responseData;
 var reservationModel = require('../models/reservation');
 var seatModel = require('../models/seats');
 
-router.use( function(req, res, next) {
-
+router.use(function (req, res, next) {
     responseData = {
         code: 0,
         message: ''
-    };
+    }
     next();
-} );
+});
 
 router.get('/findseats', function(req, res){
     var querySeats =  seatModel.find({taken: 0});
@@ -53,7 +50,7 @@ router.post('/reserve', function(req, res){
         };
         res.status(200).json(responseData)
         //return outcome through response
-    
-
     }
 })
+
+module.exports = router;

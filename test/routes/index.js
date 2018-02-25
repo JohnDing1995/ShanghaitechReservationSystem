@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.post('/', function(req, res) {
   var arr = req.body.seats;
   console.log('test arrays');
   console.log(arr.length);

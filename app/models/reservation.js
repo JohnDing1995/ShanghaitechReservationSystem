@@ -11,9 +11,7 @@ reservationSchema = new Schema(
         fullName: String,
         time: String,
         date: {type: Date, default: Date.now},
-        firstSeat: Number,
-        secondSeat: Number,
-        thirdSeat: Number,
+        seats: Array,
         code: String
     }
 );

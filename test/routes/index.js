@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.post('/', function(req, res) {
-  var arr = req.body.seats;
+router.get('/', function(req, res) {
+  var str = req.body.seats;
   console.log('test arrays');
   console.log(arr.length);
   for (var i = 0; i < arr.length; i++) {

@@ -15,6 +15,16 @@ router.use(function (req, res, next) {
     next();
 });
 
+router.post('login', function (req, res) {
+    User.findOne({username : req.body.id}, function(err, testUser){
+        if(err) throw err;
+        testUser.comparePassword(req.body.password, function(err, isMatch) {
+            if (err) throw err;
+            console.log(req.body.username, '\'s password match?', isMatch); // -> Password123: true
+        });
+    })
+})
+
 router.get('/findseats', function(req, res){
     var querySeats =  seatModel.find({taken: 0});
     querySeats.select('seatNumber');
@@ -34,11 +44,9 @@ router.post('/reserve', function(req, res){
         responseData.succeed = false;
         res.status(401);
     } else {
+        var now= new Date();
         var reserve = new reservationModel({
-            username: '',
             studentId: req.body.id,
-            fullName: req.body.fullName,
-            time: req.body.time,
             seats: req.body.seats,
             code: crypto.createHash('md5').update(toString(id) + toString(time)).digest("hex")//generate identification code,by student id and booking time
         })

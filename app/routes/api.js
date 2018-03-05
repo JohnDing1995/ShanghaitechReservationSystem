@@ -6,6 +6,7 @@ var responseData;
 
 var reservationModel = require('../models/reservation');
 var seatModel = require('../models/seats');
+var userModel = require('models/users')
 
 router.use(function (req, res, next) {
     responseData = {
@@ -16,7 +17,7 @@ router.use(function (req, res, next) {
 });
 
 router.post('login', function (req, res) {
-    User.findOne({username : req.body.id}, function(err, testUser){
+    userModel.findOne({username : req.body.id}, function(err, testUser){
         if(err) throw err;
         testUser.comparePassword(req.body.password, function(err, isMatch) {
             if (err) throw err;

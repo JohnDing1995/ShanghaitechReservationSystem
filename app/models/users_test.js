@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     User = require('./users');
 
-var connStr = 'mongodb://localhost:27017/mongoose-bcrypt-test';
+var connStr = 'mongodb://localhost:27017/reservation';
 mongoose.connect(connStr, function(err) {
     if (err) throw err;
     console.log('Successfully connected to MongoDB');
@@ -10,19 +10,19 @@ mongoose.connect(connStr, function(err) {
 // create a user a new user
 var testUser = new User({
     username: 'dry',
-    password: 'Password123'
+    password: '123456'
 });
 
 // save user to database
 // testUser.save(function(err) {
-//     if (err) throw err;
-// });
+//      if (err) throw err;
+//  });
 
 
-User.findOne({username:'dry'}, function(err, testUser){
+User.findOne({username:testUser.username}, function(err, user){
     if(err) throw err;
-    testUser.comparePassword('Password123', function(err, isMatch) {
+    user.comparePassword(testUser.password, function(err, isMatch) {
         if (err) throw err;
-        console.log('Password123:', isMatch); // -> Password123: true
+        console.log('123456:', isMatch); // -> Password123: true
     });
 })

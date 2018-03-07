@@ -6,7 +6,7 @@ var responseData;
 
 var reservationModel = require('../models/reservation');
 var seatModel = require('../models/seats');
-var userModel = require('models/users')
+var userModel = require('../models/users')
 
 router.use(function (req, res, next) {
     responseData = {
@@ -16,15 +16,19 @@ router.use(function (req, res, next) {
     next();
 });
 
-router.post('login', function (req, res) {
-    userModel.findOne({username : req.body.id}, function(err, testUser){
+router.post('/login', function (req, res) {
+    console.log(req.body);
+    userModel.findOne({username:'dry'}, function(err, user){
         if(err) throw err;
-        testUser.comparePassword(req.body.password, function(err, isMatch) {
+        console.log(user);
+        user.comparePassword('123456', function(err, isMatch) {
             if (err) throw err;
-            console.log(req.body.username, '\'s password match?', isMatch); // -> Password123: true
+            responseData.succeed = isMatch;
+            console.log(isMatch);
+            res.status(200).json(responseData);
         });
-    })
-})
+    });
+});
 
 router.get('/findseats', function(req, res){
     var querySeats =  seatModel.find({taken: 0});
@@ -32,7 +36,6 @@ router.get('/findseats', function(req, res){
     querySeats.exec(function (err, seatNumbers) {
         if (err) return handleError(err);
     });
-
     responseData.data = {
         seats: seatNumbers//an ordered list of all available seats' number
     }
@@ -51,7 +54,9 @@ router.post('/reserve', function(req, res){
             seats: req.body.seats,
             code: crypto.createHash('md5').update(toString(id) + toString(time)).digest("hex")//generate identification code,by student id and booking time
         })
-        reserve.save()
+        reserve.save(function(err) {
+             if (err) throw err;
+        });
 
         //save above to database(NoSQL is preferred)
         responseData = {
@@ -60,6 +65,13 @@ router.post('/reserve', function(req, res){
         res.status(200).json(responseData)
         //return outcome through response
     }
+})
+
+router.post('/test', function(req, res){
+    console.log(req.body.account, req.body.password);
+    responseData.succeed = true;
+    responseData.message = 'I\'m not your guy， buddy' 
+    res.status(200).json(responseData)
 })
 
 module.exports = router;

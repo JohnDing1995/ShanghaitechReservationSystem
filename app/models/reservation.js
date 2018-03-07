@@ -6,10 +6,7 @@ var Schema = mongoose.Schema;
 var reservationSchema;
 reservationSchema = new Schema(
     {
-        username: String,
         studentId: String,
-        fullName: String,
-        time: String,
         date: {type: Date, default: Date.now},
         seats: Array,
         code: String
